@@ -1,0 +1,26 @@
+import { Router } from 'express';
+import * as study from '../controllers/studyController.js';
+import { requireAuth } from '../middleware/auth.js';
+import { asyncHandler } from '../middleware/error.js';
+import { upload } from '../middleware/upload.js';
+
+export const studyRoutes = Router();
+studyRoutes.use(requireAuth);
+studyRoutes.get('/semesters', asyncHandler(study.listSemesters));
+studyRoutes.post('/semesters', asyncHandler(study.createSemester));
+studyRoutes.patch('/semesters/:id', asyncHandler(study.updateSemester));
+studyRoutes.delete('/semesters/:id', asyncHandler(study.deleteSemester));
+studyRoutes.get('/subjects', asyncHandler(study.listSubjects));
+studyRoutes.post('/subjects', asyncHandler(study.createSubject));
+studyRoutes.patch('/subjects/:id', asyncHandler(study.updateSubject));
+studyRoutes.delete('/subjects/:id', asyncHandler(study.deleteSubject));
+studyRoutes.post('/subjects/:id/syllabus', upload.single('file'), asyncHandler(study.uploadSyllabus));
+studyRoutes.post('/subjects/:id/notes', upload.single('file'), asyncHandler(study.uploadNotes));
+studyRoutes.get('/exams', asyncHandler(study.listExams));
+studyRoutes.post('/exams', asyncHandler(study.createExam));
+studyRoutes.patch('/exams/:id', asyncHandler(study.updateExam));
+studyRoutes.delete('/exams/:id', asyncHandler(study.deleteExam));
+studyRoutes.get('/timetable', asyncHandler(study.listTimetable));
+studyRoutes.post('/timetable', asyncHandler(study.createTimetableSlot));
+studyRoutes.patch('/timetable/:id', asyncHandler(study.updateTimetableSlot));
+studyRoutes.delete('/timetable/:id', asyncHandler(study.deleteTimetableSlot));

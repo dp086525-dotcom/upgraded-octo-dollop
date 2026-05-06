@@ -1,0 +1,22 @@
+import { Router } from 'express';
+import * as gym from '../controllers/gymController.js';
+import { requireAuth } from '../middleware/auth.js';
+import { asyncHandler } from '../middleware/error.js';
+import { upload } from '../middleware/upload.js';
+
+export const gymRoutes = Router();
+gymRoutes.use(requireAuth);
+gymRoutes.get('/nutrition', asyncHandler(gym.listNutrition));
+gymRoutes.post('/nutrition', asyncHandler(gym.upsertNutrition));
+gymRoutes.get('/nutrition/history', asyncHandler(gym.nutritionHistory));
+gymRoutes.get('/supplements', asyncHandler(gym.listSupplements));
+gymRoutes.post('/supplements', asyncHandler(gym.createSupplement));
+gymRoutes.patch('/supplements/:id', asyncHandler(gym.updateSupplement));
+gymRoutes.delete('/supplements/:id', asyncHandler(gym.deleteSupplement));
+gymRoutes.get('/workouts', asyncHandler(gym.listWorkouts));
+gymRoutes.post('/workouts', asyncHandler(gym.createWorkout));
+gymRoutes.patch('/workouts/:id', asyncHandler(gym.updateWorkout));
+gymRoutes.delete('/workouts/:id', asyncHandler(gym.deleteWorkout));
+gymRoutes.get('/progress', asyncHandler(gym.listProgress));
+gymRoutes.post('/progress', asyncHandler(gym.createProgress));
+gymRoutes.post('/progress/:id/photos', upload.single('file'), asyncHandler(gym.uploadProgressPhoto));
